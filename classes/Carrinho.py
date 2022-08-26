@@ -23,9 +23,9 @@ class Carrinho:
         
         id = item.get_id()
         
-        # Implemente a adição do item no dicionário
-        
+        self.__itens[id] = qtd
+
 
     def remover_item(self, item:Produto):
-        pass
-        # Implemente este método
+        id = item.get_id()
+        del self.__itens[id]

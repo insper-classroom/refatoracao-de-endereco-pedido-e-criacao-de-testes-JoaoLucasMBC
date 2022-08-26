@@ -17,5 +17,13 @@ import re
 class Pedido:
     EM_ABERTO = 1
     PAGO = 2
-    pass
     
+    def __init__(self, cliente:PessoaFisica, carrinho:Carrinho):
+        self.endereco_entrega = ''
+        self.endereco_faturamento = ''
+
+        self.cliente = cliente
+        self.carrinho = carrinho
+    
+    def __str__(self):
+        return f'Pedido de {self.cliente}, será enviado para {self.endereco_entrega}'

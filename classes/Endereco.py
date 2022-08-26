@@ -17,10 +17,10 @@ class Endereco:
     para o contrutor que consulta o cep para encontrar o endereço.
     '''
 
-    def __init__(self, cep, numero ,rua='', estado='', cidade='', complemento=''):
+    def __init__(self, cep, numero, rua='', estado='', cidade='', complemento=''):
 
         if (rua == '') or (estado == '') or (cidade == ''):
-            end_json = self.consultar_cep(cep)
+            end_json = Endereco.consultar_cep(cep)
 
             self.rua = end_json['logradouro']
             self.estado = end_json['uf']
@@ -39,7 +39,8 @@ class Endereco:
             self.cep = str(cep)
 
 
-    def consultar_cep(self, cep):
+    @classmethod
+    def consultar_cep(cls, cep):
         '''
         Metodo realiza a consulta do cep em uma api publica para obter informações
         como estado, cidade e rua
@@ -54,12 +55,16 @@ class Endereco:
         payload = {}
         headers = {}
 
+        
         # requisição GET na url de pesquisa do cep. Doc.: https://viacep.com.br/
         response = requests.request("GET", url_api, headers=headers, data=payload)
 
         # converte a resposta json em dict
         json_resp = response.json()
         return json_resp
+    
+    def __str__(self):
+        return f'{self.rua}, {self.numero} - {self.estado} - {self.cidade} - {self.cep}'
 
 
 
