@@ -21,11 +21,11 @@ class PessoaFisica:
 
     def __init__(self, cpf, email, nome='Visitante'):
         self.nome = nome
-        self.__email = email
-        self.__cpf = cpf
+        self.email = email
+        self.cpf = cpf
         self.__enderecos = {}
 
-        Endereco.intancias.append(self)
+        PessoaFisica.instancias.append(self)
 
     # escolher o estilo de retorno
 
@@ -42,7 +42,7 @@ class PessoaFisica:
         return {nome:str(self.__enderecos[nome]) for nome in self.__enderecos}
     
     def __str__(self):
-        return f'{self.nome} - {self.__cpf}'
+        return f'{self.nome} - {self.cpf}'
 
     @classmethod
     def busca_nome(cls, nome):

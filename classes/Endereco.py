@@ -25,7 +25,7 @@ class Endereco:
             self.rua = end_json['logradouro']
             self.estado = end_json['uf']
             self.cidade = end_json['localidade']
-            self.numero = numero
+            self.numero = int(numero)
             self.complemento = complemento
             self.cep = str(cep)
 
@@ -55,12 +55,20 @@ class Endereco:
         payload = {}
         headers = {}
 
+        if type(cep) != int and type(cep) != str:
+            return False
+        
+        if len(str(cep)) != 8:
+            return False
         
         # requisição GET na url de pesquisa do cep. Doc.: https://viacep.com.br/
         response = requests.request("GET", url_api, headers=headers, data=payload)
 
         # converte a resposta json em dict
         json_resp = response.json()
+
+        if 'erro' in json_resp:
+            return False
         return json_resp
     
     def __str__(self):

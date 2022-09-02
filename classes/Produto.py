@@ -30,8 +30,7 @@ class Produto:
     def id(self, id_novo):
         self.__id = id_novo
     
-    @id.getter
-    def id(self):
+    def get_id(self):
         return self.__id
 
     @nome.setter
@@ -48,6 +47,7 @@ class Produto:
             'nome':self.__nome
         }
     
+    @classmethod
     def busca_nome(cls, nome):
         procura = []
 

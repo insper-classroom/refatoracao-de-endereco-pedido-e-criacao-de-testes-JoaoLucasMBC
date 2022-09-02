@@ -1,34 +1,48 @@
 import pytest
+import requests
 
 from classes.Endereco import Endereco
 
 
 @pytest.mark.endereco
+def test_criar_endereco_completo():
+    end = Endereco(cep='05641100', numero=567)
+
+    assert end.cep == '05641100'
+    assert end.numero == 567
+
+
+@pytest.mark.endereco
 def test_endereco_sem_cep():
     with pytest.raises(TypeError) as exc:
-        assert exc == Endereco(numero=567)
+        Endereco(numero=567)
+    assert "missing 1 required positional argument: 'cep'" in str(exc.value)
 
 @pytest.mark.endereco
 def test_endereco_sem_num():
     with pytest.raises(TypeError) as exc:
-        assert exc == Endereco(cep=f'05641100')
+        Endereco(cep='05641100')
+    assert "missing 1 required positional argument: 'numero'" in str(exc.value)
 
 @pytest.mark.endereco
+@pytest.mark.calcula_cep
 def test_consulta_cep_nao_e_string_ou_int():
-    with pytest.raises(TypeError) as exc:
-        Endereco.consultar_cep(cep=False)
-        assert 'missing' in str(exc.value)
+    assert False == Endereco.consultar_cep(cep=False)
 
 @pytest.mark.endereco
+@pytest.mark.calcula_cep
 def test_cep_formato_numerico_errado():
-    with pytest.raises(TypeError) as exc:
-        Endereco.consultar_cep(cep=52527)
-        assert 'length' in str(exc.value)
+    assert False == Endereco.consultar_cep(cep=52527)
 
 @pytest.mark.endereco
+@pytest.mark.calcula_cep
 def test_cep_nao_existente():
-    assert '' == Endereco.consultar_cep(cep=99999999)
+    assert False == Endereco.consultar_cep(cep=99999999)
 
-@pytest.mark.endereco
+@pytest.mark.sem_conexao
+@pytest.mark.calcula_cep
 def test_caiu_a_net():
-    pass
+    with pytest.raises(requests.exceptions.ConnectionError) as exc:
+        Endereco.consultar_cep(cep='05641100')
+    
+    assert 'Max retries' in str(exc.value)

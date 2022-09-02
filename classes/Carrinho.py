@@ -29,3 +29,7 @@ class Carrinho:
     def remover_item(self, item:Produto):
         id = item.get_id()
         del self.__itens[id]
+
+
+    def get_items(self):
+        return self.__itens

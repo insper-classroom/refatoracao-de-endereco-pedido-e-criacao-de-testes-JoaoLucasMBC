@@ -26,4 +26,4 @@ class Pedido:
         self.carrinho = carrinho
     
     def __str__(self):
-        return f'Pedido de {self.cliente}, será enviado para {self.endereco_entrega}'
+        return f'Pedido de {self.cliente}, será enviado para {self.endereco_entrega} e comprou {self.carrinho.get_items()}'
